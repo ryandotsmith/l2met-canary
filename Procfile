@@ -1,1 +1,1 @@
-main: ruby main.rb
+main: ruby main.rb 10
