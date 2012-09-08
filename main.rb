@@ -12,6 +12,6 @@ loop do
   sleep(1)
   t = Time.now.to_i
   (ENV["LINES"] || 1).to_i.times do
-    log(measure: true, at: "canary-test", time: t)
+    log(measure: true, at: "canary-test", time: t + rand(500))
   end
 end
