@@ -10,7 +10,7 @@ end
 
 loop do
   sleep(1)
-  (ARGV[0] || 1).to_i.times do
+  (ENV["LINES"] || 1).to_i.times do
     log(measure: true, at: "canary-test")
   end
 end
