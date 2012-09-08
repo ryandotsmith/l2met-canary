@@ -1,0 +1,1 @@
+main: ruby main.rb
