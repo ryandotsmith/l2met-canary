@@ -48,7 +48,7 @@ def post(data)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.body = line
   http.request(request)
-  pulse("http")
+  pulse(["http", data[:at]].join("."))
 end
 
 loop do
