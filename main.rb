@@ -20,6 +20,7 @@ def post(data)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.set_form_data(line)
   response = http.request(request)
+  puts response.body
 end
 
 loop do
