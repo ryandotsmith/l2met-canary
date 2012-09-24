@@ -3,6 +3,8 @@ require 'thread'
 require 'net/http'
 require 'uri'
 
+Thread.abort_on_exception = true
+
 def log(data)
   data = {app: "l2met-canary"}.merge(data)
   data.reduce(out=String.new) do |s, tup|
