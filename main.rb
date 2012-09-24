@@ -24,7 +24,6 @@ def post(data)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.body = line
   response = http.request(request)
-  puts response.body
 end
 
 loop do
