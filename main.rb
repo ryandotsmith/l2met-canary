@@ -20,7 +20,7 @@ def post(data)
   http.use_ssl = true
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
   request = Net::HTTP::Post.new(uri.request_uri)
-  request.set_form_data(line)
+  request.body = line
   response = http.request(request)
   puts response.body
 end
