@@ -1,4 +1,6 @@
 $stdout.sync = true
+
+require 'time'
 require 'thread'
 require 'net/http'
 require 'uri'
@@ -14,7 +16,7 @@ def log(data)
 end
 
 def post(data)
-  line = "146 <13>1 #{Time.at(data[:time])} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - app=l2met-canary measure=true at=canary-http time=#{data[:time]}"
+  line = "146 <13>1 #{Time.at(data[:time]).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - app=l2met-canary measure=true at=canary-http time=#{data[:time]}"
   uri = URI.parse(ENV["DRAIN_URL"])
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
