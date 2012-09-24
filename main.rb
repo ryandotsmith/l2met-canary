@@ -1,5 +1,5 @@
 $stdout.sync = true
-
+require 'atomic'
 require 'time'
 require 'thread'
 require 'net/http'
