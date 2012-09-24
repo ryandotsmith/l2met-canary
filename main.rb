@@ -39,7 +39,7 @@ def base
 end
 
 def post(data)
-  line = "#{base} app=l2met-canary measure=true at=canary-http time=#{data[:time]}"
+  line = base + fmt(data)
   line = [line.length.to_s, line].join(" ")
   uri = URI.parse(ENV["DRAIN_URL"])
   http = Net::HTTP.new(uri.host, uri.port)
