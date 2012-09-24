@@ -7,6 +7,26 @@ require 'uri'
 
 Thread.abort_on_exception = true
 
+Thread.new do
+  loop do
+    beats.each do |source, val|
+      n = val.swap(0)
+      log(at: source, received: n)
+    end
+    sleep(60)
+  end
+end
+
+def pulse(source)
+  beats[source] ||= Atomic.new(0)
+  beats[source].update {|n| n + 1}
+end
+
+def beats
+  @beats ||= {}
+end
+
+
 def log(data)
   data = {app: "l2met-canary"}.merge(data)
   data.reduce(out=String.new) do |s, tup|
@@ -24,6 +44,7 @@ def post(data)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.body = line
   response = http.request(request)
+  pulse("http")
 end
 
 loop do
