@@ -35,7 +35,7 @@ def fmt(data)
 end
 
 def base
-  "<13>1 #{Time.now.iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
+  "<13>1 #{(Time.now - 10).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
 end
 
 def post(data)
@@ -59,7 +59,7 @@ loop do
     Thread.new do
       puts fmt(d.merge(at: "canary-drain-count"))
       post(d.merge(fn: "canary-post-list", elapsed: 3.14))
-      post(d.merge(at: "canary-post-last", last: Time.now.to_i - 60))
+      post(d.merge(at: "canary-post-last", last: Time.now.to_i))
     end
   end
 end
