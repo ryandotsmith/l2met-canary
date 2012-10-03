@@ -59,7 +59,7 @@ loop do
     Thread.new do
       puts fmt(d.merge(at: "canary-drain-count"))
       post(d.merge(fn: "canary-post-list", elapsed: 3.14))
-      post(d.merge(at: "canary-post-last", last: Time.now.to_i))
+      post(d.merge(at: "canary-post-last", last: Time.now.to_i - 60))
     end
   end
 end
