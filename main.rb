@@ -35,7 +35,7 @@ def fmt(data)
 end
 
 def base
-  "<13>1 #{(Time.now - 10).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
+  "<13>1 #{(Time.now - 180).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
 end
 
 def post(data)
