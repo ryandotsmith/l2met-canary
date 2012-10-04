@@ -6,6 +6,8 @@ require 'thread'
 require 'net/http'
 require 'uri'
 
+DELAY = (ENV["DELAY"] || 0).to_i
+
 Thread.abort_on_exception = true
 
 Thread.new do
@@ -35,7 +37,7 @@ def fmt(data)
 end
 
 def base
-  "<13>1 #{Time.now.iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
+  "<13>1 #{(Time.now - DELAY).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
 end
 
 def post(data)
