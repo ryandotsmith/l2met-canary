@@ -60,8 +60,8 @@ loop do
     d = {app: "l2met-canary", measure: true}
     Thread.new do
       puts fmt(d.merge(at: "canary-drain-count"))
-      post(d.merge(fn: "canary-post-list", elapsed: 3.14))
-      post(d.merge(at: "canary-post-last", last: Time.now.to_i))
+      #post(d.merge(fn: "canary-post-list", elapsed: 3.14))
+      #post(d.merge(at: "canary-post-last", last: Time.now.to_i))
       beta_url = ENV["BETA_URL"]
       post(app: "l2met-canary", measure: "beta-canary-post", val: 3.14)
     end
