@@ -40,10 +40,10 @@ def base
   "<13>1 #{(Time.now - DELAY).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
 end
 
-def post(data)
+def post(data, url=ENV["DRAIN_URL"])
   line = base + fmt(data)
   line = [line.length.to_s, line].join(" ")
-  uri = URI.parse(ENV["DRAIN_URL"])
+  uri = URI.parse(url)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -62,6 +62,8 @@ loop do
       puts fmt(d.merge(at: "canary-drain-count"))
       post(d.merge(fn: "canary-post-list", elapsed: 3.14))
       post(d.merge(at: "canary-post-last", last: Time.now.to_i))
+      beta_url = ENV["BETA_URL"]
+      post(app: "l2met-canary", measure: "beta-canary-post", val: 3.14)
     end
   end
 end
