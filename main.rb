@@ -40,7 +40,8 @@ def base
   "<13>1 #{(Time.now - DELAY).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
 end
 
-def post(data, url=ENV["DRAIN_URL"])
+def post(data)
+  url = data.delete(:url)
   line = base + fmt(data)
   line = [line.length.to_s, line].join(" ")
   uri = URI.parse(url)
@@ -61,7 +62,6 @@ loop do
       puts fmt(d.merge(at: "canary-drain-count"))
       #post(d.merge(fn: "canary-post-list", elapsed: 3.14))
       #post(d.merge(at: "canary-post-last", last: Time.now.to_i))
-      beta_url = ENV["BETA_URL"]
-      post(app: "l2met-canary", measure: "beta-canary-post", val: 3.14)
+      post(url: ENV["BETA_URL"], app: "l2met-canary", measure: "beta-canary-post", val: 3.14)
   end
 end
