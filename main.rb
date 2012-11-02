@@ -1,3 +1,4 @@
+
 $stdout.sync = true
 
 require 'atomic'
