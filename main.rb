@@ -27,7 +27,7 @@ end
 loop do
   sleep(1)
   (ENV["LINES"] || 1).to_i.times do
-    post(ENV["L2MET_URL"], 'measure="canary-post" val=3.14')
-    $stdout.puts('measure="canary-drain"')
+    post(ENV["L2MET_URL"], 'measure="l2met-canary.http-post" val=3.14')
+    $stdout.puts('measure="l2met-canary.drain"')
   end
 end
