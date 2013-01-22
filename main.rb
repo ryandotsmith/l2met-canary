@@ -19,6 +19,7 @@ def post(url, msg)
   http.use_ssl = true
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
   request = Net::HTTP::Post.new(uri.request_uri)
+  request.basic_auth(uri.user, uri.password)
   request.body = line
   http.request(request)
   $stdout.puts("http-post")
@@ -27,7 +28,7 @@ end
 loop do
   sleep(1)
   (ENV["LINES"] || 1).to_i.times do
-    post(ENV["L2MET_URL"], 'measure="l2met-canary.http-post" val=3.14')
+    post(ENV["L2MET_URL"], 'measure="l2met-canary.http-post"')
     $stdout.puts('measure="l2met-canary.drain"')
   end
 end
