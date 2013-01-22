@@ -1,7 +1,5 @@
-
 $stdout.sync = true
 
-require 'atomic'
 require 'time'
 require 'thread'
 require 'net/http'
@@ -9,41 +7,12 @@ require 'uri'
 
 DELAY = (ENV["DELAY"] || 0).to_i
 
-Thread.abort_on_exception = true
-
-Thread.new do
-  loop do
-    beats.each do |source, val|
-      n = val.swap(0)
-      puts fmt(at: source, received: n)
-    end
-    sleep(60)
-  end
-end
-
-def pulse(source)
-  beats[source] ||= Atomic.new(0)
-  beats[source].update {|n| n + 1}
-end
-
-def beats
-  @beats ||= {}
-end
-
-def fmt(data)
-  data.reduce(out=String.new) do |s, tup|
-    s << [tup.first, tup.last].join("=") << " "
-  end
-  out
-end
-
 def base
-  "<13>1 #{(Time.now - DELAY).iso8601} app main.1 d.3dfe0f7c-a554-4e15-bf98-2eefc9e0192e - "
+  "<13>1 #{(Time.now - DELAY).iso8601} app main.1 fake.logplex.token - "
 end
 
-def post(data)
-  url = data.delete(:url)
-  line = base + fmt(data)
+def post(url, msg)
+  line = base + msg
   line = [line.length.to_s, line].join(" ")
   uri = URI.parse(url)
   http = Net::HTTP.new(uri.host, uri.port)
@@ -52,17 +21,13 @@ def post(data)
   request = Net::HTTP::Post.new(uri.request_uri)
   request.body = line
   http.request(request)
-  pulse(["http", (data[:at] || data[:fn])].join("."))
+  $stdout.puts("http-post")
 end
 
 loop do
   sleep(1)
-  t = Time.now.to_i
-  (ENV["LINES"] || 1).to_i.times do |i|
-    d = {app: "l2met-canary", measure: true}
-      puts fmt(d.merge(at: "canary-drain-count"))
-      #post(d.merge(fn: "canary-post-list", elapsed: 3.14))
-      #post(d.merge(at: "canary-post-last", last: Time.now.to_i))
-      post(url: ENV["BETA_URL"], app: "l2met-canary", measure: "beta-canary-post", val: 3.14)
+  (ENV["LINES"] || 1).to_i.times do
+    post(ENV["L2MET_URL"], 'measure="canary-post" val=3.14')
+    $stdout.puts('measure="canary-drain"')
   end
 end
