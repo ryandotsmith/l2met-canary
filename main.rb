@@ -8,7 +8,7 @@ require 'uri'
 DELAY = (ENV["DELAY"] || 0).to_i
 
 def base
-  "<13>1 #{(Time.now - DELAY).iso8601} app main.1 fake.logplex.token - "
+  "<13>1 #{(Time.now - DELAY).iso8601} app main.1 fake.logplex.token - - "
 end
 
 def post(url, msg)
