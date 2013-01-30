@@ -1,1 +1,1 @@
-main: l2met
+main: l2met-canary
