@@ -55,5 +55,3 @@ func prepare(w io.Writer, msg string) {
 	msg = "<0>1 " + t + "1234 " + lpToken + " " + "canary[l2met]" + " - - " + msg
 	fmt.Fprintf(w, "%d %s", len(msg), msg)
 }
-
-
