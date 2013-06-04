@@ -30,7 +30,7 @@ func init() {
 }
 
 func main() {
-	for _ = range time.Tick(time.Second) {
+	for _ = range time.Tick(time.Millisecond * 100) {
 		go post()
 	}
 }
