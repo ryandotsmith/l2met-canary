@@ -37,7 +37,7 @@ func main() {
 
 func post() {
 	var b bytes.Buffer
-	prepare(&b, "measure=\"l2met-canary.http-post\"")
+	prepare(&b, "measure.l2met-canary.http-post")
 	req, err := http.NewRequest("POST", l2metUrl.String(), &b)
 	resp, err := http.DefaultClient.Do(req)
 	b.Reset()
