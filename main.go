@@ -1,19 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"io"
 	"bytes"
 	"crypto/tls"
-	"time"
-	"net/url"
-	"net/http"
+	"fmt"
+	"io"
 	"log"
+	"net/http"
+	"net/url"
 	"os"
+	"strconv"
+	"time"
 )
 
 var (
 	l2metUrl *url.URL
+	rate     int
 )
 
 func init() {
@@ -27,11 +29,23 @@ func init() {
 		tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
 		http.DefaultTransport = tr
 	}
+
+	r := os.Getenv("RATE")
+	if len(r) < 1 {
+		r = "1"
+	}
+	rate, err = strconv.Atoi(r)
+	if err != nil {
+		fmt.Printf("error parsing rate. Set to 1\n")
+		rate = 1
+	}
 }
 
 func main() {
-	for _ = range time.Tick(time.Millisecond * 50) {
-		go post()
+	for _ = range time.Tick(time.Second) {
+		for i := 0; i < rate; i++ {
+			go post()
+		}
 	}
 }
 
@@ -51,7 +65,7 @@ func post() {
 
 func prepare(w io.Writer, msg string) {
 	t := time.Now().UTC().Format("2006-01-02T15:04:05+00:00 ")
-	lpToken, _ :=  l2metUrl.User.Password()
+	lpToken, _ := l2metUrl.User.Password()
 	msg = "<0>1 " + t + "1234 " + lpToken + " " + "canary[l2met]" + " - - " + msg
 	fmt.Fprintf(w, "%d %s", len(msg), msg)
 }

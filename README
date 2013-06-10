@@ -1,0 +1,7 @@
+l2met-canary
+
+Usage
+
+	$ export RATE=10 
+	$ export L2MET_URL=https://your-token@your-l2met.herokuapp.com/logs
+	$ ./l2met-canary 
